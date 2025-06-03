@@ -1,5 +1,6 @@
 import requests
 import os
+import random
 
 API_URL = "https://api-inference.huggingface.co/models/microsoft/Phi-3-mini-4k-instruct"
 headers = {
@@ -17,9 +18,25 @@ def query(payload):
     response.raise_for_status()
     return response.json()
 
-# Main chatbot loop
+# Generate a 6-digit OTP
+def generate_otp():
+    return str(random.randint(100000, 999999))
+
+# Main chatbot loop with OTP
 def main():
-    print("Welcome to the Programming Helper (non-Java). Ask your question:\n")
+    print("Welcome to the Programming Helper (non-Java).")
+    
+    # OTP flow
+    otp = generate_otp()
+    print(f"\n🔐 Your OTP is: {otp}")
+    user_input = input("Enter the OTP to continue: ")
+
+    if user_input.strip() != otp:
+        print("❌ Invalid OTP. Exiting.\n")
+        return
+
+    print("✅ OTP verified! Ask your programming question below:\n")
+
     while True:
         user_input = input("You: ")
         if user_input.lower() in ["exit", "quit"]:
